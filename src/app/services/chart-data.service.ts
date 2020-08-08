@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Mouldtype, Mouldconfigs, MappingChartdata } from '/home/nirudhi/Natrayan/Projects/ETL/niruchart/src/niruchart_models';
+import { Mouldtype, Mouldconfigs,Mouldconfigs1, MappingChartdata } from '/home/nirudhi/Natrayan/Projects/ETL/niruchart/src/niruchart_models';
 
 import { ChartCommonService } from './chart-common.service';
 import { HttpClient } from '@angular/common/http';
@@ -18,7 +18,7 @@ export interface ScriptModel {
 @Injectable()
 export class ChartDataService {
 
-  my_Moulds: Mouldconfigs[]; //Store all the allowed Moulds
+  my_Moulds: Mouldconfigs1[]; //Store all the allowed Moulds
   //my_saved_Moulds:saved_Moulds[];
   chartdata: MappingChartdata[];  
   nodes:any;
@@ -108,40 +108,75 @@ export class ChartDataService {
 
      this.my_Moulds = [
        {
-        "mouldType": { 
-                        "mouldGroup": "io",
-                        "moduleId": "pandas",
-                        "submoduleId": "read",
-                        "mouldId": "io_csv"
-                      },
-        "dispname": "pandas.read_csv",
-        "mould_class":"rect_in_out_port_leaf",
-        "color_config" : { "port" : {
-                          "fill": "#FFE4C4",
-                          "stroke": "#DAA520",
-                          "stroke_width": 2
+       "moduleId": "pandas",
+       "moduledet":[
+          {
+            "mouldType": {                         
+                            "moduleId": "pandas",
+                            "mouldGroup": "io",
+                            "submodulegroup": "read",
+                            "mouldId": "io_csv"
                           },
-                          "drag_port" : {
-                          "fill": "#FFE4C4",
-                          "stroke": "#DAA520",
-                          "stroke_width": 2
+            "dispname": "pandas_read_csv",
+            "mould_class":"rect_in_out_port_leaf",
+            "color_config" : { "port" : {
+                              "fill": "#FFE4C4",
+                              "stroke": "#DAA520",
+                              "stroke_width": 2
+                              },
+                              "drag_port" : {
+                              "fill": "#FFE4C4",
+                              "stroke": "#DAA520",
+                              "stroke_width": 2
+                              },
+                              "body" : {
+                              "fill": "#FFE4C4",
+                              "stroke": "#DAA520",
+                              "stroke_width": 2
+                              }
+                            },
+            "mould_form": {}
+          },
+          {
+            "mouldType": { 
+                            "moduleId": "pandas",
+                            "mouldGroup": "io",                        
+                            "submodulegroup": "read",                        
+                            "mouldId": "io_rpt"
                           },
-                          "body" : {
-                          "fill": "#FFE4C4",
-                          "stroke": "#DAA520",
-                          "stroke_width": 2
-                          }
-                        },
-        "mould_form": {}
-       },
+            "dispname": "pandas_read_rpt",
+            "mould_class":"rect_in_out_port_leaf",
+            "color_config" :{ "port" : {
+                              "fill": "#FFE4C4",
+                              "stroke": "#DAA520",
+                              "stroke_width": 2
+                              },
+                              "drag_port" : {
+                              "fill": "#FFE4C4",
+                              "stroke": "#DAA520",
+                              "stroke_width": 2
+                              },
+                              "body" : {
+                              "fill": "#FFE4C4",
+                              "stroke": "#DAA520",
+                              "stroke_width": 2
+                              },
+                            },
+            "mould_form": {}
+           }
+        ]
+      },
+      {
+       "moduleId": "pandass",
+       "moduledet":[
        {
         "mouldType": { 
-                        "mouldGroup": "io",
-                        "moduleId": "pandas",
-                        "submoduleId": "read",
+                        "moduleId": "pandass",
+                        "mouldGroup": "io",                        
+                        "submodulegroup": "read",                        
                         "mouldId": "io_rpt"
                       },
-        "dispname": "pandas.read_rpt",
+        "dispname": "pandas_read_rpt",
         "mould_class":"rect_in_out_port_leaf",
         "color_config" :{ "port" : {
                           "fill": "#FFE4C4",
@@ -163,7 +198,9 @@ export class ChartDataService {
        },
      ]
    }
-  
+     ];
+
+    }
   /*
   preparedataforchart() {
     this.getchartdata();   //Data Saved in Database

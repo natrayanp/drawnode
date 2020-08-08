@@ -37,11 +37,13 @@ export class custom_dot_with_drag_handler extends LeafShape {
     msx= this.childshape.push(new base_circle_leaf(0,0,this,this.prntbasesh.groupid,this.dot_radius));
     this.childshape[msx-1].mybaseleaf
          .attr("class", "port-scrim")
-         .attr("fill", "green").
-         attr("fill-opacity",0.5);
+         .attr("fill", "green")
+         .attr("fill-opacity",0.5);
     //this.childshape[msx-1].add_drag_forbase();
     //this.childshape[msx-1].add_drag_on_cpy_forbase([new Connectors(this.childshape[msx-1]),null,null,null]);
-    this.childshape[msx-1].add_connector_function(con_base,"Connectors",[null,null,null]);
+      if(!this.ismould) {
+        this.childshape[msx-1].add_connector_function(con_base,"Connectors",[null,null,null]);
+      }
     this.set_clr();
 
   }
@@ -269,8 +271,10 @@ export class custom_rect_in_out_port_leaf extends LeafShape {
         .attr("fill", "#FFE4C4" )
         .attr("stroke","#DAA520" );
 
-
-    this.baseshape.add_drag_forbase();
+    if (!this.ismould) {
+      console.log("inside add drag");
+      this.baseshape.add_drag_forbase();
+    }
 
     let msx = this.childshape.push(new custom_dot_with_drag_handler(this, this.data));
     //console.log(this);
@@ -285,9 +289,18 @@ export class custom_rect_in_out_port_leaf extends LeafShape {
       this.myroot[0].connect_ports["inport"] = [];
     }
     this.myroot[0].connect_ports.inport.push(this.childshape[msx-1]);
-    this.myroot[0].chart_obj.push_leaf("draw_area",this);
+    if (this.ismould) {
+      this.myroot[0].chart_obj.push_leaf("sidemenu_area",this);
+    } else {
+      this.myroot[0].chart_obj.push_leaf("draw_area",this);
+    }
+    
 
-    msx = this.childshape.push(new custom_button_round(this, this.data));
+    if (!this.ismould) {
+      msx = this.childshape.push(new custom_button_round(this, this.data));
+    }
+    
+    
   }
 
   leaf_resize() {
@@ -345,7 +358,7 @@ export class custom_rect_in_out_port_leaf_n extends LeafShape {
     //console.log(this);
     //console.log("ttette");
     //consloe.log("ererer");
-    this.baseshape = new base_rect_leaf_w_text(0,0,this,groupid,250,20);  //Set min height and width of leaf
+    this.baseshape = new base_rect_leaf_w_text(0,0,this,groupid,150,10);  //Set min height and width of leaf
     // constructor(x:number,y:number, prntshape:any, groupid:string, w: number,h: number) {
     //this.baseshape.set_myroot();
     this.text_obj.init_text();
@@ -364,7 +377,7 @@ export class custom_rect_in_out_port_leaf_n extends LeafShape {
 
     this.baseshape.add_drag_forbase();
 
-    let msx = this.childshape.push(new custom_dot_with_drag_handler(this, this.data));
+    let msx = this.childshape.push(new custom_dot_with_drag_handler_n(this, this.data));
     
     //console.log(this);
     //console.log(this.myroot);
@@ -372,18 +385,23 @@ export class custom_rect_in_out_port_leaf_n extends LeafShape {
       this.myroot[0].connect_ports["outport"] = [];
     }
     this.myroot[0].connect_ports.outport.push(this.childshape[msx-1]);
-    msx = this.childshape.push(new custom_dot_with_drag_handler_n(this, this.data));
+
+    //msx = this.childshape.push(new custom_dot_with_drag_handler_n(this, this.data));
     this.myroot[0].connect_ports.outport.push(this.childshape[msx-1]);
 
-    msx = this.childshape.push(new custom_dot_no_drag_handler(this,this.data));
+    msx = this.childshape.push(new custom_dot_no_drag_handler_n(this,this.data));
     if (!("inport" in this.myroot[0].connect_ports)) {
       this.myroot[0].connect_ports["inport"] = [];
     }
     this.myroot[0].connect_ports.inport.push(this.childshape[msx-1]);
-
-      msx = this.childshape.push(new custom_dot_no_drag_handler_n(this,this.data));  
-          this.myroot[0].connect_ports.inport.push(this.childshape[msx-1]);
     this.myroot[0].chart_obj.push_leaf("draw_area",this);
+
+    msx = this.childshape.push(new custom_button_round(this, this.data));
+    //msx = this.childshape.push(new custom_dot_no_drag_handler_n(this,this.data));  
+    //this.myroot[0].connect_ports.inport.push(this.childshape[msx-1]);
+
+    //(<base_rect_leaf_w_text>this.baseshape).add_text(5,6,"mine","red");
+    
   }
 
   leaf_resize() {
@@ -408,25 +426,25 @@ export class custom_rect_in_out_port_leaf_n extends LeafShape {
     //@TESTING CODES
 */
 
+recalc_adj_factor() {
+  this.set_x(this.isemptyobject(this.parentshape)?this.get_x():0);
+  this.set_y(this.isemptyobject(this.parentshape)?this.get_y():0); 
+}
   
-
   moving_bare() {}
-  recalc_adj_factor() {
-    this.set_x(this.isemptyobject(this.parentshape)?this.get_x():0);
-    this.set_y(this.isemptyobject(this.parentshape)?this.get_y():0); 
-  }
+
   size_calc(){}
 
-    set_clr() {
-      console.log(this.data);
-    let cl = this.data.data.mould_conf.color_config;
-    if ("body" in cl){
-          this.baseshape.mybaseleaf
-            .attr("fill", cl["body"].fill)
-            .attr("stroke", cl["body"].stroke)
-            .attr("stroke-width", cl["body"].stroke_width);
-    }
+  set_clr() {
+    console.log(this.data);
+  let cl = this.data.data.mould_conf.color_config;
+  if ("body" in cl){
+        this.baseshape.mybaseleaf
+          .attr("fill", cl["body"].fill)
+          .attr("stroke", cl["body"].stroke)
+          .attr("stroke-width", cl["body"].stroke_width);
   }
+}
 
 }
 
@@ -439,7 +457,8 @@ export class custom_dot_with_drag_handler_n extends LeafShape {
     private dot_hori_align: number;
 
     constructor(prntshape:any,d) {
-    super((<base_rect_leaf_w_text>prntshape.baseshape).width,0,prntshape,(<base_rect_leaf_w_text>prntshape).groupid,[[""]],{},d);
+    //super((<base_rect_leaf_w_text>prntshape.baseshape).width,0,prntshape,(<base_rect_leaf_w_text>prntshape).groupid,[[""]],{},d);
+    super((<base_rect_leaf_w_text>prntshape.baseshape).width,((<base_rect_leaf_w_text>prntshape.baseshape).height)/2,prntshape,(<base_rect_leaf_w_text>prntshape).groupid,[[""]],{}, d);
    // d.data["obj"] = this;
     this.prntbasesh = (<base_rect_leaf_w_text>prntshape.baseshape);
     this.dot_radius = this.prntbasesh.height/5;
@@ -466,10 +485,11 @@ export class custom_dot_with_drag_handler_n extends LeafShape {
     msx= this.childshape.push(new base_circle_leaf(0,0,this,this.prntbasesh.groupid,this.dot_radius));
     this.childshape[msx-1].mybaseleaf
          .attr("class", "port-scrim")
-         .attr("fill", "green");
+         .attr("fill", "green")
+         .attr("fill-opacity",0.5);
     //this.childshape[msx-1].add_drag_forbase();
     //this.childshape[msx-1].add_drag_on_cpy_forbase([new Connectors(this.childshape[msx-1]),null,null,null]);
-    this.childshape[msx-1].add_connector_function(con_base,"Connectors",[null,null,null]);
+    //this.childshape[msx-1].add_connector_function(con_base,"Connectors",[null,null,null]);
     this.set_clr();
 
   }
@@ -479,7 +499,7 @@ export class custom_dot_with_drag_handler_n extends LeafShape {
 
   recalc_adj_factor() {
     this.x_adjust_factor =  (<base_rect_leaf_w_text>this.parentshape.baseshape).width;
-    this.y_adjust_factor = 0;
+    this.y_adjust_factor = ((<base_rect_leaf_w_text>this.parentshape.baseshape).height)/2;
     this.set_x(this.isemptyobject(this.parentshape)?this.get_x():0);
     this.set_y(this.isemptyobject(this.parentshape)?this.get_y():0); 
   }
@@ -539,7 +559,7 @@ export class custom_dot_no_drag_handler_n extends LeafShape {
     //private dot_hori_align: number;
 
     constructor(prntshape:any,d) {
-    super(0,0,prntshape,(<base_rect_leaf_w_text>prntshape).groupid,[[""]],{},d);
+    super(0,((<base_rect_leaf_w_text>prntshape.baseshape).height)/2,prntshape,(<base_rect_leaf_w_text>prntshape).groupid,[[""]],{},d);
     this.prntbasesh = <base_rect_leaf_w_text>prntshape.baseshape;
     this.dot_radius = this.prntbasesh.height/5;
 
@@ -578,6 +598,8 @@ export class custom_dot_no_drag_handler_n extends LeafShape {
   }
 
   recalc_adj_factor() {
+    this.x_adjust_factor = 0;
+    this.y_adjust_factor = ((<base_rect_leaf_w_text>this.parentshape.baseshape).height)/2;
     this.set_x(this.isemptyobject(this.parentshape)?this.get_x():0);
     this.set_y(this.isemptyobject(this.parentshape)?this.get_y():0); 
   }
