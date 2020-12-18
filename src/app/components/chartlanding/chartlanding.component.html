@@ -1,0 +1,34 @@
+<mat-toolbar color="primary" *ngIf ="stage !='don'">My App</mat-toolbar>
+
+<div class="example-button-row" *ngIf ="stage =='init'">    
+    <button mat-raised-button color="primary" (click) = "projtype('new')">New Blank Project</button>
+    <button mat-raised-button color="accent" (click) = "projtype('ext')">Existing Project</button>
+</div>
+
+<div *ngIf ="stage =='new'">
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+             placeholder="Ex. pat@example.com">
+      <mat-hint>New Project Name</mat-hint>
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+</form>
+<button mat-raised-button color="primary" (click) = "finalsubmit('new')">Create New Blank Project</button>
+</div>
+
+<div *ngIf ="stage =='ext'">
+    <p> Under construction... use material tree</p>
+    <button mat-raised-button color="primary" (click) = "finalsubmit('ext')">Open existing project</button>
+</div>
+
+<div *ngIf ="stage =='don'">
+    <app-chart [projdet] = "projdet"></app-chart>
+</div>
+

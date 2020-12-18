@@ -1,0 +1,178 @@
+.all-container{
+    float:left;
+    //height: 500px;
+    //width:1000px; 
+    //padding:3px; 
+    //background:#FFA500;
+}
+
+.all-content{
+    overflow-x:scroll;
+    scroll-behavior: smooth;
+   // height:500px;
+   // overflow-x:scroll;
+    //scroll-behavior: smooth;
+    //background:#FFFFFF;
+}
+
+
+.canvas{
+    border:1px solid black;
+    background: white;
+
+}
+
+.active {
+  stroke:lightsteelblue;
+  stroke-width: 2px;
+}
+
+
+
+.node-container {
+  cursor: move;
+  fill: #3C3C3C;
+}
+
+.node-background {
+fill: #3C3C3C;
+}
+
+.node-header {  
+  fill: #426D92;
+  
+  .header-title {
+    font-size: 20px;
+    fill: #fff;
+    text-anchor: middle;
+  }
+}
+
+
+
+.port {
+  cursor: pointer;
+}
+
+.port-scrim {
+ // fill: transparent;
+}
+
+.port-outer {
+  fill: #777777;
+}
+
+.port-inner {
+  fill: #202020;
+}
+
+.port-label {
+  font-size: 12px;
+  fill: #fff;
+}
+
+.input-field {  
+  .port-label {
+    text-anchor: start;
+  }
+}
+
+.output-field {  
+  .port-label {
+    text-anchor: end;
+  }
+}
+
+.connector-handle {
+  fill: #E88802;
+}
+
+.connector-path {
+  stroke: #E88802;  
+  stroke-width: 4;
+  fill: none;
+}
+
+.connector-path-outline {
+  stroke: #333;
+  stroke-width: 6;
+  fill: none;
+}
+
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+
+
+.button  {
+  stroke: #999faa; /* navy 40% */
+  stroke-width: 2px;
+}
+
+.button .pressed {
+  fill: #000f2b; /* navy 100% */
+}
+
+.button #gradient-start {
+  stop-color: #999faa; /* navy 40% */
+  stop-opacity: 1;
+}
+
+.button #gradient-stop {
+  stop-color: #4d576b; /* navy 70% */
+  stop-opacity: 1;
+}
+
+.button #gradient-start.active, .button #gradient-start.pressed {
+  stop-color: #4d576b; /* navy 70% */
+}
+
+.button #gradient-stop.active, .button #gradient-stop.pressed {
+  stop-color: #000f2b; /* navy 100% */
+}
+
+.chart-container {
+  height: 80vh;
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.example-container {
+  width: 500px;
+  height: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
